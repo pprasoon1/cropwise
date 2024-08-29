@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Get Recommendations{% endblock %}
+
+{% block content %}
+<h1>Enter Your Farm Details</h1>
+<form method="post">
+    {% comment %} {{ csrf_token }} {% endcomment %}
+    {{ form.as_p }}  <!-- Corrected: No parentheses here -->
+    <button type="submit">Get Recommendations</button>
+</form>
+{% endblock %}

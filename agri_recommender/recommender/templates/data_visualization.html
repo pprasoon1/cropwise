@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Data Insights{% endblock %}
+
+{% block content %}
+<h1>Agricultural Data Insights</h1>
+<div class="charts">
+    <div class="chart-container">
+        <h2>Expected Income Growth</h2>
+        <canvas id="incomeChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Weather Forecast</h2>
+        <canvas id="weatherChart"></canvas>
+    </div>
+</div>
+<script>
+    // Income Growth Chart
+    var incomeCtx = document.getElementById('incomeChart').getContext('2d');
+    var incomeChart = new Chart(incomeCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ income_growth_data.keys()|list|tojson }},
+            datasets: [{
+                data: {{ income_growth_data.values()|list }},
+                backgroundColor: [
+                    '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Expected Income Growth by Crop (%)'
+            }
+        }
+    });
+      // Weather Forecast Chart
+      var weatherCtx = document.getElementById('weatherChart').getContext('2d');
+      var weatherChart = new Chart(weatherCtx, {
+          type: 'pie',
+          data: {
+              labels: {{ weather_forecast.keys()|list|tojson }},
+              datasets: [{
+                  data: {{ weather_forecast.values()|list }},
+                  backgroundColor: [
+                      '#FFA726', '#78909C', '#29B6F6', '#EF5350'
+                  ]
+              }]
+          },
+          options: {
+              responsive: true,
+              title: {
+                  display: true,
+                  text: 'Weather Forecast (%)'
+              }
+          }
+      });
+  </script>
+  {% endblock %}

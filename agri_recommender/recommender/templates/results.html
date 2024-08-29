@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Your Recommendations{% endblock %}
+
+{% block content %}
+<h1>Your Agricultural Recommendations</h1>
+<div class="recommendations">
+    <h2>Fertilizer Recommendations</h2>
+    <ul>
+    {% for fertilizer in recommendations.fertilizer_recommendations %}
+        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }}</li>
+    {% empty %}
+        <li>No fertilizer recommendations available.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Crop Recommendations</h2>
+    <ul>
+    {% for crop in recommendations.crop_recommendations %}
+        <li>{{ crop }}</li>
+    {% empty %}
+        <li>No crop recommendations available.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Best Practices</h2>
+    <ul>
+    {% for practice in recommendations.best_practices %}
+        <li>{{ practice }}</li>
+    {% empty %}
+        <li>No best practices available.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Schedule</h2>
+    <p><strong>Sowing Time:</strong> {{ recommendations.schedule.sowing_time }}</p>
+    <p><strong>Expected Harvest Time:</strong> {{ recommendations.schedule.expected_harvest_time }}</p>
+    
+    <h3>Key Activities</h3>
+    <ul>
+    {% for activity in recommendations.schedule.key_activities %}
+        <li><strong>{{ activity.activity }}:</strong> {{ activity.time }}</li>
+    {% empty %}
+        <li>No key activities available.</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

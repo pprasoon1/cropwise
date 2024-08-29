@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to Agri Recommender{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to Agri Recommender</h1>
+    <p>Get personalized agricultural recommendations for your farm</p>
+    <a href="{{ url('form') }}" class="cta-button">Get Started</a>
+</section>
+<section class="features">
+    <div class="feature">
+        <h2>Tailored Advice</h2>
+        <p>Receive recommendations based on your specific location and needs</p>
+    </div>
+    <div class="feature">
+        <h2>Data-Driven Insights</h2>
+        <p>Make informed decisions with our advanced analytics</p>
+    </div>
+    <div class="feature">
+        <h2>Sustainable Farming</h2>
+        <p>Learn best practices for eco-friendly agriculture</p>
+    </div>
+</section>
+{% endblock %}
