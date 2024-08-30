@@ -3,16 +3,28 @@
 {% block title %}Get Recommendations{% endblock %}
 
 {% block content %}
-<section style="text-align: center; padding: 100px 50px; background-color: #f1f8e9;">
-    <h1 style="font-size: 36px; font-weight: 700; color: #2e7d32; margin-bottom: 40px;">Enter Your Farm Details</h1>
-    <form method="post" style="max-width: 600px; margin: 0 auto; text-align: left; background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
-        {% comment %} {{ csrf_token }} {% endcomment %}
-        {{ form.as_p }}
-        <button type="submit" style="width: 100%; padding: 15px; font-size: 18px; color: #fff; background-color: #4caf50; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; transition: background-color 0.3s;">Get Recommendations</button>
-    </form>
+<section style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 50px; background-color: #e8f5e9;">
+    <div style="max-width: 600px; width: 100%; background-color: #ffffff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+        <h1 style="font-size: 32px; font-weight: 700; color: #2e7d32; text-align: center; margin-bottom: 30px;">Enter Your Farm Details</h1>
+        <form method="post" style="text-align: left;">
+            {% comment %} {{ csrf_token }} {% endcomment %}
+            {{ form.as_p }}
+            <button type="submit" style="width: 100%; padding: 15px; font-size: 18px; color: #ffffff; background-color: #43a047; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background-color 0.3s, transform 0.3s; margin-top: 20px;">
+                Get Recommendations
+            </button>
+        </form>
+    </div>
 </section>
 
 <script>
-    // Add any interactive JS here if needed
+    document.querySelector('button[type="submit"]').addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#388e3c';
+        this.style.transform = 'translateY(-2px)';
+    });
+
+    document.querySelector('button[type="submit"]').addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#43a047';
+        this.style.transform = 'translateY(0)';
+    });
 </script>
 {% endblock %}

@@ -261,9 +261,9 @@
         <!-- Additional Images -->
         <img src="{% static 'images/hilll.png' %}" id="hilll" alt="Hilll">
         <img src="{% static 'images/hi112.png' %}" id="hi112" alt="Hi112">
-        <img src="{% static 'images/hi113.png' %}" id="hi113" alt="Hi113">
+        {% comment %} <img src="{% static 'images/hi113.png' %}" id="hi113" alt="Hi113"> {% endcomment %}
         <img src="{% static 'images/hi114.png' %}" id="hi114" alt="Hi114">
-        <img src="{% static 'images/hi115.png' %}" id="hi115" alt="Hi115">
+        {% comment %} <img src="{% static 'images/hi115.png' %}" id="hi115" alt="Hi115"> {% endcomment %}
         
 
         <div id="text">
@@ -275,18 +275,14 @@
     </div>
     <div class="parallax-section">
     <div class="content-section" id="about">
-        <img src="{% static 'images/plant.png' %}" id="plant" alt="Plant">
-        <img src="{% static 'images/tree.png' %}" id="tree" alt="Tree">
+        {% comment %} <img src="{% static 'images/plant.png' %}" id="plant" alt="Plant">
+        <img src="{% static 'images/tree.png' %}" id="tree" alt="Tree"> {% endcomment %}
         <h2>About Us</h2>
         <p>
             CropWise is dedicated to providing innovative agricultural solutions to enhance crop yield and sustainability.
             Our team combines expertise in agriculture, technology, and environmental science to support farmers worldwide.
         </p>
-        <div>
-            <img src="{% static 'images/crop1.jpg' %}" alt="Crop 1">
-            <img src="{% static 'images/crop2.jpg' %}" alt="Crop 2">
-            <img src="{% static 'images/crop3.jpg' %}" alt="Crop 3">
-        </div>
+        
     </div>
 </div>
 

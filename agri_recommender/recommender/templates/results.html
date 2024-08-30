@@ -1,77 +1,380 @@
 {% extends "base.html" %}
-{% block title %}Your Recommendations{% endblock %}
+{% block title %}Your Agricultural Recommendations{% endblock %}
 {% block content %}
-<h1>Your Agricultural Recommendations</h1>
-<div class="recommendations">
-    <h2>Fertilizer Recommendations</h2>
-    <h3>Chemical Fertilizers</h3>
-    <ul>
-    {% for fertilizer in recommendations.fertilizer_recommendations.chemical %}
-        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }} (Apply: {{ fertilizer.application_time }})</li>
-    {% empty %}
-        <li>No chemical fertilizer recommendations available.</li>
-    {% endfor %}
-    </ul>
-    <h3>Organic Fertilizers</h3>
-    <ul>
-    {% for fertilizer in recommendations.fertilizer_recommendations.organic %}
-        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }} (Apply: {{ fertilizer.application_time }})</li>
-    {% empty %}
-        <li>No organic fertilizer recommendations available.</li>
-    {% endfor %}
-    </ul>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Roboto', 'Arial', sans-serif;
+        background-color: #f5f7fa;
+    }
+    .container {
+        display: flex;
+        min-height: 100vh;
+    }
+    .sidebar {
+        width: 280px;
+        background-color: #2c3e50;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        transition: all 0.3s;
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar h2 {
+        font-size: 24px;
+        font-weight: 500;
+        padding: 20px;
+        margin: 0;
+        background-color: #34495e;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar li {
+        margin: 0;
+        border-bottom: 1px solid #3a5269;
+        width: 100%;
+    }
+    .sidebar a {
+        display: block;
+        padding: 15px 20px;
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: all 0.3s;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .sidebar a:hover, .sidebar a.active {
+        background-color: #3498db;
+        padding-left: 25px;
+    }
+    .sidebar a i {
+        margin-right: 10px;
+    }
+    .main-content {
+        flex-grow: 1;
+        margin-left: 280px;
+        padding: 40px;
+        overflow-y: auto;
+    }
+    .section {
+        min-height: 100vh;
+        padding: 60px 40px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #e0e0e0;
+        background-color: white;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .section:last-child {
+        border-bottom: none;
+    }
+    h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #3498db;
+    }
+    h2 {
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #34495e;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #bdc3c7;
+    }
+    h3 {
+        font-size: 24px;
+        font-weight: 500;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        color: #2980b9;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 12px;
+        line-height: 1.6;
+    }
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: all 0.3s;
+    }
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ecf0f1;
+    }
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    .info-label {
+        font-weight: 600;
+        color: #34495e;
+    }
+    .info-value {
+        color: #2c3e50;
+    }
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        .main-content {
+            margin-left: 0;
+        }
+    }
+</style>
 
-    <h2>Crop Recommendations</h2>
-    <ul>
-    {% for crop in recommendations.crop_recommendations %}
-        <li>{{ crop.crop }} (Variety: {{ crop.variety }})</li>
-    {% empty %}
-        <li>No crop recommendations available.</li>
-    {% endfor %}
-    </ul>
+<div class="container">
+    <!-- Sticky Sidebar -->
+    <nav class="sidebar">
+        <h2>Navigate</h2>
+        <ul>
+            <li><a href="#soil"><i class="fas fa-seedling"></i> Soil Information</a></li>
+            <li><a href="#fertilizers"><i class="fas fa-flask"></i> Fertilizer Recommendations</a></li>
+            <li><a href="#crops"><i class="fas fa-leaf"></i> Crop Recommendations</a></li>
+            <li><a href="#best-practices"><i class="fas fa-check-circle"></i> Best Practices</a></li>
+            <li><a href="#schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+            <li><a href="#income-impact"><i class="fas fa-coins"></i> Expected Income Impact</a></li>
+            <li><a href="#cold-storage"><i class="fas fa-warehouse"></i> Nearest Cold Storage</a></li>
+        </ul>
+    </nav>
 
-    <h2>Best Practices</h2>
-    <ul>
-    {% for practice in recommendations.best_practices %}
-        <li>{{ practice }}</li>
-    {% empty %}
-        <li>No best practices available.</li>
-    {% endfor %}
-    </ul>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Your Agricultural Recommendations</h1>
 
-    <h2>Schedule</h2>
-    <p><strong>Sowing Time:</strong> {{ recommendations.schedule.sowing_time }}</p>
-    <p><strong>Expected Harvest Time:</strong> {{ recommendations.schedule.expected_harvest_time }}</p>
-   
-    <h3>Key Activities</h3>
-    <ul>
-    {% for activity in recommendations.schedule.key_activities %}
-        <li><strong>{{ activity.activity }}:</strong> {{ activity.time }}</li>
-    {% empty %}
-        <li>No key activities available.</li>
-    {% endfor %}
-    </ul>
+        <!-- Soil Information Section -->
+        <section id="soil" class="section">
+            <h2>Soil Information</h2>
+            <div class="card">
+                <div class="info-item">
+                    <span class="info-label">Soil Type:</span>
+                    <span class="info-value">{{ recommendations.soil_information.type }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">pH:</span>
+                    <span class="info-value">{{ recommendations.soil_information.ph }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Nitrogen:</span>
+                    <span class="info-value">{{ recommendations.soil_information.nitrogen }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phosphorus:</span>
+                    <span class="info-value">{{ recommendations.soil_information.phosphorus }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Potassium:</span>
+                    <span class="info-value">{{ recommendations.soil_information.potassium }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Organic Matter:</span>
+                    <span class="info-value">{{ recommendations.soil_information.organic_matter }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Moisture:</span>
+                    <span class="info-value">{{ recommendations.soil_information.moisture }}</span>
+                </div>
+            </div>
+        </section>
 
-    <h2>Expected Income Impact</h2>
-    <p>{{ recommendations.expected_income_impact }}</p>
+        <!-- Fertilizer Recommendations Section -->
+        <section id="fertilizers" class="section">
+            <h2>Fertilizer Recommendations</h2>
+            <div class="card">
+                <h3>Chemical Fertilizers</h3>
+                <ul>
+                    {% for fertilizer in recommendations.fertilizer_recommendations.chemical %}
+                        <li>
+                            <strong>{{ fertilizer.type }}:</strong> {{ fertilizer.quantity }}
+                            <br>
+                            <small>Apply: {{ fertilizer.application_time }}</small>
+                        </li>
+                    {% empty %}
+                        <li>No chemical fertilizer recommendations available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Organic Fertilizers</h3>
+                <ul>
+                    {% for fertilizer in recommendations.fertilizer_recommendations.organic %}
+                        <li>
+                            <strong>{{ fertilizer.type }}:</strong> {{ fertilizer.quantity }}
+                            <br>
+                            <small>Apply: {{ fertilizer.application_time }}</small>
+                        </li>
+                    {% empty %}
+                        <li>No organic fertilizer recommendations available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
 
-    <h2>Soil Information</h2>
-    <ul>
-        <li><strong>Soil Type:</strong> {{ recommendations.soil_information.type }}</li>
-        <li><strong>pH:</strong> {{ recommendations.soil_information.ph }}</li>
-        <li><strong>Nitrogen:</strong> {{ recommendations.soil_information.nitrogen }}</li>
-        <li><strong>Phosphorus:</strong> {{ recommendations.soil_information.phosphorus }}</li>
-        <li><strong>Potassium:</strong> {{ recommendations.soil_information.potassium }}</li>
-        <li><strong>Organic Matter:</strong> {{ recommendations.soil_information.organic_matter }}</li>
-        <li><strong>Moisture:</strong> {{ recommendations.soil_information.moisture }}</li>
-    </ul>
+        <!-- Crop Recommendations Section -->
+        <section id="crops" class="section">
+            <h2>Crop Recommendations</h2>
+            <div class="card">
+                <ul>
+                    {% for crop in recommendations.crop_recommendations %}
+                        <li>
+                            <strong>{{ crop.crop }}</strong>
+                            <br>
+                            <small>Variety: {{ crop.variety }}</small>
+                        </li>
+                    {% empty %}
+                        <li>No crop recommendations available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
 
-    <h2>Nearest Cold Storage</h2>
-    <ul>
-        <li><strong>Name:</strong> {{ recommendations.nearest_cold_storage.name }}</li>
-        <li><strong>Distance:</strong> {{ recommendations.nearest_cold_storage.distance }}</li>
-        <li><strong>Capacity:</strong> {{ recommendations.nearest_cold_storage.capacity }}</li>
-        <li><strong>Type:</strong> {{ recommendations.nearest_cold_storage.type }}</li>
-    </ul>
+        <!-- Best Practices Section -->
+        <section id="best-practices" class="section">
+            <h2>Best Practices</h2>
+            <div class="card">
+                <ul>
+                    {% for practice in recommendations.best_practices %}
+                        <li>{{ practice }}</li>
+                    {% empty %}
+                        <li>No best practices available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="section">
+            <h2>Schedule</h2>
+            <div class="card">
+                <div class="info-item">
+                    <span class="info-label">Sowing Time:</span>
+                    <span class="info-value">{{ recommendations.schedule.sowing_time }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Expected Harvest Time:</span>
+                    <span class="info-value">{{ recommendations.schedule.expected_harvest_time }}</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Key Activities</h3>
+                <ul>
+                    {% for activity in recommendations.schedule.key_activities %}
+                        <li>
+                            <strong>{{ activity.activity }}:</strong> {{ activity.time }}
+                        </li>
+                    {% empty %}
+                        <li>No key activities available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        <!-- Expected Income Impact Section -->
+        <section id="income-impact" class="section">
+            <h2>Expected Income Impact</h2>
+            <div class="card">
+                <p>{{ recommendations.expected_income_impact }}</p>
+            </div>
+        </section>
+
+        <!-- Nearest Cold Storage Section -->
+        <section id="cold-storage" class="section">
+            <h2>Nearest Cold Storage</h2>
+            <div class="card">
+                <div class="info-item">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{ recommendations.nearest_cold_storage.name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Distance:</span>
+                    <span class="info-value">{{ recommendations.nearest_cold_storage.distance }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Capacity:</span>
+                    <span class="info-value">{{ recommendations.nearest_cold_storage.capacity }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Type:</span>
+                    <span class="info-value">{{ recommendations.nearest_cold_storage.type }}</span>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
+
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        const sections = document.querySelectorAll('.section');
+
+        function setActiveLink() {
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 60) {
+                    currentSection = section.id;
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', setActiveLink);
+        setActiveLink();
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').slice(1);
+                const targetSection = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetSection.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}
