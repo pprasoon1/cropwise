@@ -1,61 +1,119 @@
-{% extends "base.html" %}
-
-{% block title %}Data Insights{% endblock %}
-
-{% block content %}
-<h1>Agricultural Data Insights</h1>
-<div class="charts">
-    <div class="chart-container">
-        <h2>Expected Income Growth</h2>
-        <canvas id="incomeChart"></canvas>
-    </div>
-    <div class="chart-container">
-        <h2>Weather Forecast</h2>
-        <canvas id="weatherChart"></canvas>
-    </div>
-</div>
-<script>
-    // Income Growth Chart
-    var incomeCtx = document.getElementById('incomeChart').getContext('2d');
-    var incomeChart = new Chart(incomeCtx, {
-        type: 'pie',
-        data: {
-            labels: {{ income_growth_data.keys()|list|tojson }},
-            datasets: [{
-                data: {{ income_growth_data.values()|list }},
-                backgroundColor: [
-                    '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Expected Income Growth by Crop (%)'
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualisation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
         }
-    });
-      // Weather Forecast Chart
-      var weatherCtx = document.getElementById('weatherChart').getContext('2d');
-      var weatherChart = new Chart(weatherCtx, {
-          type: 'pie',
-          data: {
-              labels: {{ weather_forecast.keys()|list|tojson }},
-              datasets: [{
-                  data: {{ weather_forecast.values()|list }},
-                  backgroundColor: [
-                      '#FFA726', '#78909C', '#29B6F6', '#EF5350'
-                  ]
-              }]
-          },
-          options: {
-              responsive: true,
-              title: {
-                  display: true,
-                  text: 'Weather Forecast (%)'
-              }
-          }
-      });
-  </script>
-  {% endblock %}
+        .navbar {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+            border-radius: 4px;
+        }
+        .container {
+            padding: 10px;
+        }
+        #soilChart {
+            width: 100px; /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
+            max-width: 50%;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'landing' %}">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+    <div class="container">
+        <h2>Soil Information</h2>
+        <canvas id="soilChart"></canvas>
+    </div>
+
+    <script>
+        const soilInformation = {
+            ph: {{ soil_information.ph }},
+            nitrogen: '{{ soil_information.nitrogen }}',
+            phosphorus: '{{ soil_information.phosphorus }}',
+            potassium: '{{ soil_information.potassium }}',
+            organic_matter: '{{ soil_information.organic_matter }}',
+            moisture: '{{ soil_information.moisture }}'
+        };
+
+        const ctx = document.getElementById('soilChart').getContext('2d');
+        const soilChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['pH', 'Nitrogen', 'Phosphorus', 'Potassium', 'Organic Matter', 'Moisture'],
+                datasets: [{
+                    label: 'Soil Information',
+                    data: [
+                        soilInformation.ph,
+                        parseFloat(soilInformation.nitrogen.match(/\d+/)[0]),  // Extract the numeric value
+                        parseFloat(soilInformation.phosphorus.match(/\d+/)[0]),
+                        parseFloat(soilInformation.potassium.match(/\d+/)[0]),
+                        parseFloat(soilInformation.organic_matter.match(/\d+/)[0]),
+                        parseFloat(soilInformation.moisture.match(/\d+/)[0])
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

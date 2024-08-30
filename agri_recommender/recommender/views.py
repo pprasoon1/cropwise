@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import AgriForm
-from .utils import get_recommendations, get_income_growth_data, get_weather_forecast
+from .utils import get_recommendations, get_income_growth_data, get_weather_forecast, generate_data_visualisation_context, get_recommendations
 import json
 from django.views.decorators.csrf import csrf_exempt
 
@@ -26,9 +26,28 @@ def results(request):
     return render(request, 'results.html', {'recommendations': recommendations})
 @csrf_exempt
 def data_visualization(request):
-    income_growth_data = get_income_growth_data()
-    weather_forecast = get_weather_forecast()
-    return render(request, 'data_visualization.html',
-                   {'income_growth_data': income_growth_data, 
-                    'weather_forecast': weather_forecast
-                    })
+    # Sample data
+    soil_information = {
+        'ph': 6.5,
+        'nitrogen': '15 mg/kg',
+        'phosphorus': '20 mg/kg',
+        'potassium': '25 mg/kg',
+        'organic_matter': '3.5%',
+        'moisture': '10%'
+    }
+
+    # Extract numeric values
+    def extract_numeric(value):
+        # Extract numeric value from strings like '15 mg/kg'
+        return float(''.join(filter(str.isdigit, value)))
+
+    processed_data = {
+        'ph': soil_information['ph'],
+        'nitrogen': extract_numeric(soil_information['nitrogen']),
+        'phosphorus': extract_numeric(soil_information['phosphorus']),
+        'potassium': extract_numeric(soil_information['potassium']),
+        'organic_matter': extract_numeric(soil_information['organic_matter'].replace('%', '')),
+        'moisture': extract_numeric(soil_information['moisture'].replace('%', ''))
+    }
+
+    return render(request, 'data_visualization.html', {'soil_information': processed_data})

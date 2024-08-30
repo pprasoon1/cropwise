@@ -1,23 +1,30 @@
 {% extends "base.html" %}
-
 {% block title %}Your Recommendations{% endblock %}
-
 {% block content %}
 <h1>Your Agricultural Recommendations</h1>
 <div class="recommendations">
     <h2>Fertilizer Recommendations</h2>
+    <h3>Chemical Fertilizers</h3>
     <ul>
-    {% for fertilizer in recommendations.fertilizer_recommendations %}
-        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }}</li>
+    {% for fertilizer in recommendations.fertilizer_recommendations.chemical %}
+        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }} (Apply: {{ fertilizer.application_time }})</li>
     {% empty %}
-        <li>No fertilizer recommendations available.</li>
+        <li>No chemical fertilizer recommendations available.</li>
+    {% endfor %}
+    </ul>
+    <h3>Organic Fertilizers</h3>
+    <ul>
+    {% for fertilizer in recommendations.fertilizer_recommendations.organic %}
+        <li>{{ fertilizer.type }}: {{ fertilizer.quantity }} (Apply: {{ fertilizer.application_time }})</li>
+    {% empty %}
+        <li>No organic fertilizer recommendations available.</li>
     {% endfor %}
     </ul>
 
     <h2>Crop Recommendations</h2>
     <ul>
     {% for crop in recommendations.crop_recommendations %}
-        <li>{{ crop }}</li>
+        <li>{{ crop.crop }} (Variety: {{ crop.variety }})</li>
     {% empty %}
         <li>No crop recommendations available.</li>
     {% endfor %}
@@ -35,7 +42,7 @@
     <h2>Schedule</h2>
     <p><strong>Sowing Time:</strong> {{ recommendations.schedule.sowing_time }}</p>
     <p><strong>Expected Harvest Time:</strong> {{ recommendations.schedule.expected_harvest_time }}</p>
-    
+   
     <h3>Key Activities</h3>
     <ul>
     {% for activity in recommendations.schedule.key_activities %}
@@ -43,6 +50,28 @@
     {% empty %}
         <li>No key activities available.</li>
     {% endfor %}
+    </ul>
+
+    <h2>Expected Income Impact</h2>
+    <p>{{ recommendations.expected_income_impact }}</p>
+
+    <h2>Soil Information</h2>
+    <ul>
+        <li><strong>Soil Type:</strong> {{ recommendations.soil_information.type }}</li>
+        <li><strong>pH:</strong> {{ recommendations.soil_information.ph }}</li>
+        <li><strong>Nitrogen:</strong> {{ recommendations.soil_information.nitrogen }}</li>
+        <li><strong>Phosphorus:</strong> {{ recommendations.soil_information.phosphorus }}</li>
+        <li><strong>Potassium:</strong> {{ recommendations.soil_information.potassium }}</li>
+        <li><strong>Organic Matter:</strong> {{ recommendations.soil_information.organic_matter }}</li>
+        <li><strong>Moisture:</strong> {{ recommendations.soil_information.moisture }}</li>
+    </ul>
+
+    <h2>Nearest Cold Storage</h2>
+    <ul>
+        <li><strong>Name:</strong> {{ recommendations.nearest_cold_storage.name }}</li>
+        <li><strong>Distance:</strong> {{ recommendations.nearest_cold_storage.distance }}</li>
+        <li><strong>Capacity:</strong> {{ recommendations.nearest_cold_storage.capacity }}</li>
+        <li><strong>Type:</strong> {{ recommendations.nearest_cold_storage.type }}</li>
     </ul>
 </div>
 {% endblock %}
