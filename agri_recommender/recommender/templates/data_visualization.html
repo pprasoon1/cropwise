@@ -3,117 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Visualisation</title>
+    <title>Enhanced Soil Data Visualization</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --text-color: #333;
+            --background-color: #f5f5f5;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
         .navbar {
-            background-color: green;
-            color: white;
-            padding: 10px;
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
         }
-        .navbar a {
+        .navbar-brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .navbar-links {
+            display: flex;
+        }
+        .navbar-links a {
             color: white;
             text-decoration: none;
-            padding: 14px 20px;
-        }
-        .navbar a:hover {
-            background-color: #575757;
+            padding: 10px 15px;
+            margin-left: 10px;
             border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .navbar-links a:hover {
+            background-color: var(--secondary-color);
         }
         .container {
-            padding: 10px;
-        }
-        #soilChart {
-            width: 100px; /* Adjust the width as needed */
-            height: 100px; /* Adjust the height as needed */
-            max-width: 50%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         h2 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 20px;
             text-align: center;
-            color: #333;
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .chart-item {
+            flex: 0 0 calc(50% - 20px);
+            margin-bottom: 20px;
+        }
+        .info-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .info-link:hover {
+            color: var(--secondary-color);
+        }
+        .info-link i {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="{% url 'landing' %}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-    </div>
-
-    <iframe src="https://soilhealth.dac.gov.in/home" width="800" height="600"></iframe>
-
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">CropWise</a>
+            <div class="navbar-links">
+                <a href="{% url 'landing' %}"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'results' %}"><i class="fas fa-chart-bar"></i> Results</a>
+                <a href="{% url 'form' %}"><i class="fas fa-edit"></i> Form</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
-        <h2>Soil Information</h2>
-        <canvas id="soilChart"></canvas>
+        <h2>Comprehensive Soil Analysis</h2>
+        <div class="chart-container">
+            <div class="chart-item">
+                <canvas id="soilCompositionChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="nutrientLevelsChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="soilHealthRadarChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="moisturePhChart"></canvas>
+            </div>
+        </div>
+        <a href="https://soilhealth.dac.gov.in/home" class="info-link">
+            <i class="fas fa-info-circle"></i> Learn more about your soil
+        </a>
     </div>
 
     <script>
         const soilInformation = {
-            ph: {{ soil_information.ph }},
-            nitrogen: '{{ soil_information.nitrogen }}',
-            phosphorus: '{{ soil_information.phosphorus }}',
-            potassium: '{{ soil_information.potassium }}',
-            organic_matter: '{{ soil_information.organic_matter }}',
-            moisture: '{{ soil_information.moisture }}'
+            ph: 6.5,
+            nitrogen: '40 kg/ha',
+            phosphorus: '30 kg/ha',
+            potassium: '200 kg/ha',
+            organic_matter: '2.5%',
+            moisture: '25%'
         };
 
-        const ctx = document.getElementById('soilChart').getContext('2d');
-        const soilChart = new Chart(ctx, {
-            type: 'pie',
+        // Soil Composition Doughnut Chart
+        const ctxComposition = document.getElementById('soilCompositionChart').getContext('2d');
+        new Chart(ctxComposition, {
+            type: 'doughnut',
             data: {
                 labels: ['pH', 'Nitrogen', 'Phosphorus', 'Potassium', 'Organic Matter', 'Moisture'],
                 datasets: [{
-                    label: 'Soil Information',
+                    label: 'Soil Composition',
                     data: [
                         soilInformation.ph,
-                        parseFloat(soilInformation.nitrogen.match(/\d+/)[0]),  // Extract the numeric value
-                        parseFloat(soilInformation.phosphorus.match(/\d+/)[0]),
-                        parseFloat(soilInformation.potassium.match(/\d+/)[0]),
-                        parseFloat(soilInformation.organic_matter.match(/\d+/)[0]),
-                        parseFloat(soilInformation.moisture.match(/\d+/)[0])
+                        parseFloat(soilInformation.nitrogen),
+                        parseFloat(soilInformation.phosphorus),
+                        parseFloat(soilInformation.potassium),
+                        parseFloat(soilInformation.organic_matter),
+                        parseFloat(soilInformation.moisture)
                     ],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
                     ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    borderColor: 'white',
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top',
+                        position: 'bottom',
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw;
-                            }
+                    title: {
+                        display: true,
+                        text: 'Soil Composition Overview'
+                    }
+                }
+            }
+        });
+
+        // Nutrient Levels Bar Chart
+        const ctxNutrients = document.getElementById('nutrientLevelsChart').getContext('2d');
+        new Chart(ctxNutrients, {
+            type: 'bar',
+            data: {
+                labels: ['Nitrogen', 'Phosphorus', 'Potassium'],
+                datasets: [{
+                    label: 'Nutrient Levels (kg/ha)',
+                    data: [
+                        parseFloat(soilInformation.nitrogen),
+                        parseFloat(soilInformation.phosphorus),
+                        parseFloat(soilInformation.potassium)
+                    ],
+                    backgroundColor: [
+                        '#36A2EB', '#FFCE56', '#4BC0C0'
+                    ],
+                    borderColor: [
+                        '#2693e6', '#ffbf00', '#00a3a3'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'kg/ha'
                         }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Nutrient Levels'
+                    }
+                }
+            }
+        });
+
+        // Soil Health Radar Chart
+        const ctxRadar = document.getElementById('soilHealthRadarChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['pH', 'Nitrogen', 'Phosphorus', 'Potassium', 'Organic Matter'],
+                datasets: [{
+                    label: 'Current Levels',
+                    data: [
+                        soilInformation.ph,
+                        parseFloat(soilInformation.nitrogen),
+                        parseFloat(soilInformation.phosphorus),
+                        parseFloat(soilInformation.potassium),
+                        parseFloat(soilInformation.organic_matter)
+                    ],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(54, 162, 235)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Soil Health Indicators'
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        suggestedMin: 0
+                    }
+                }
+            }
+        });
+
+        // Moisture vs pH Scatter Plot
+        const ctxScatter = document.getElementById('moisturePhChart').getContext('2d');
+        new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Moisture vs pH',
+                    data: [{
+                        x: soilInformation.ph,
+                        y: parseFloat(soilInformation.moisture)
+                    }],
+                    backgroundColor: 'rgb(75, 192, 192)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'pH'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Moisture (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Moisture vs pH Relationship'
                     }
                 }
             }

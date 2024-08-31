@@ -13,8 +13,9 @@
 
     .container {
         position: relative;
-        min-height: 100vh;
-        padding: 50px;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden; /* Prevent scrollbars if image is slightly larger */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -25,9 +26,9 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 100vw; /* Ensure full viewport width */
+        height: 100vh; /* Ensure full viewport height */
+        object-fit: cover; /* Cover the area */
         z-index: -1;
         filter: brightness(70%);
     }
@@ -39,8 +40,8 @@
         border-radius: 20px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         max-width: 800px;
-        margin: 50px auto;
         position: relative;
+        z-index: 1; /* Ensure it's above the background image */
     }
 
     .leaf-image {
@@ -89,6 +90,7 @@
         justify-content: space-around;
         padding: 80px 50px;
         background-color: rgba(250, 250, 250, 0.9);
+        width: 100%;
     }
 
     .feature {
@@ -137,7 +139,7 @@
 </style>
 
 <div class="container">
-    <img src="{% static 'images/bg2222.avif' %}" alt="Hill" class="background-image">
+    <img src="{% static 'images/bgimg1.jpeg' %}" alt="Hill" class="background-image">
 
     <section class="welcome-section">
         <img src="{% static 'images/leaf.png' %}" alt="Leaf" class="leaf-image">
@@ -166,7 +168,6 @@
 </div>
 
 <script>
-    // Interactive hover effect for feature boxes
     document.querySelectorAll('.feature').forEach(feature => {
         feature.addEventListener('mouseover', function() {
             this.style.transform = 'translateY(-10px)';

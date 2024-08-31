@@ -1,15 +1,49 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Get Recommendations{% endblock %}
 
 {% block content %}
-<section style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 50px; background-color: #e8f5e9;">
-    <div style="max-width: 600px; width: 100%; background-color: #ffffff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-        <h1 style="font-size: 32px; font-weight: 700; color: #2e7d32; text-align: center; margin-bottom: 30px;">Enter Your Farm Details</h1>
+<section style="
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    padding: 50px; 
+    background: url('{% static "images/bgimg1111.jpg" %}') no-repeat center center/cover;
+    background-size: cover; /* Ensure the background image covers the entire section */
+">
+    <div style="
+        max-width: 600px; 
+        width: 100%; 
+        background-color: rgba(255, 255, 255, 0.9); 
+        padding: 40px; 
+        border-radius: 15px; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    ">
+        <h1 style="
+            font-size: 32px; 
+            font-weight: 700; 
+            color: #2e7d32; 
+            text-align: center; 
+            margin-bottom: 30px;
+        ">Enter Your Farm Details</h1>
         <form method="post" style="text-align: left;">
-            {% comment %} {{ csrf_token }} {% endcomment %}
+            {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" style="width: 100%; padding: 15px; font-size: 18px; color: #ffffff; background-color: #43a047; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background-color 0.3s, transform 0.3s; margin-top: 20px;">
+            <button type="submit" style="
+                width: 100%; 
+                padding: 15px; 
+                font-size: 18px; 
+                color: #ffffff; 
+                background-color: #43a047; 
+                border: none; 
+                border-radius: 8px; 
+                cursor: pointer; 
+                text-decoration: none; 
+                transition: background-color 0.3s, transform 0.3s; 
+                margin-top: 20px;
+            ">
                 Get Recommendations
             </button>
         </form>

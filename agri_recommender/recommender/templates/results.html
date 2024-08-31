@@ -1,5 +1,8 @@
 
-{% block title %}Your Agricultural Recommendations{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Your Agricultural Recommendations" %}{% endblock %}
+
 {% block content %}
 <style>
     body, html {
@@ -23,7 +26,6 @@
         justify-content: space-between;
         align-items: center;
         position: fixed;
-      
         top: 0;
         width: 100%;
         z-index: 1001;
@@ -38,7 +40,6 @@
     }
     .navbar ul {
         list-style: none;
-        
         padding: 8px;
         margin: 0;
         display: flex;
@@ -218,63 +219,64 @@
 </style>
 
 <div class="navbar">
-    <h1>Agri Recommender</h1>
+    <h1>{% trans "Agri Recommender" %}</h1>
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{% url 'landing' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Home" %}</a></li>
+        <li><a href="{% url 'form' %}" class="{% if 'form' in request.path %}active{% endif %}">{% trans "Get Recommendations" %}</a></li>
+        <li><a href="{% url 'data_visualization' %}" class="{% if 'data_visualization' in request.path %}active{% endif %}">{% trans "Data Insights" %}</a></li>
+        <li><a href="{% url 'latest_articles' %}" class="{% if 'latest_articles' in request.path %}active{% endif %}">{% trans "Latest Articles" %}</a></li>
     </ul>
 </div>
 
 <div class="container">
     <!-- Sticky Sidebar -->
     <nav class="sidebar">
-        <h2>Navigate</h2>
+        <h2>{% trans "Navigate" %}</h2>
         <ul>
-            <li><a href="#soil"><i class="fas fa-seedling"></i> Soil Information</a></li>
-            <li><a href="#fertilizers"><i class="fas fa-flask"></i> Fertilizer Recommendations</a></li>
-            <li><a href="#crops"><i class="fas fa-leaf"></i> Crop Recommendations</a></li>
-            <li><a href="#best-practices"><i class="fas fa-check-circle"></i> Best Practices</a></li>
-            <li><a href="#schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
-            <li><a href="#income-impact"><i class="fas fa-coins"></i> Expected Income Impact</a></li>
-            <li><a href="#cold-storage"><i class="fas fa-warehouse"></i> Nearest Cold Storage</a></li>
+            <li><a href="#soil"><i class="fas fa-seedling"></i> {% trans "Soil Information" %}</a></li>
+            <li><a href="#fertilizers"><i class="fas fa-flask"></i> {% trans "Fertilizer Recommendations" %}</a></li>
+            <li><a href="#crops"><i class="fas fa-leaf"></i> {% trans "Crop Recommendations" %}</a></li>
+            <li><a href="#best-practices"><i class="fas fa-check-circle"></i> {% trans "Best Practices" %}</a></li>
+            <li><a href="#schedule"><i class="fas fa-calendar-alt"></i> {% trans "Schedule" %}</a></li>
+            <li><a href="#income-impact"><i class="fas fa-coins"></i> {% trans "Expected Income Impact" %}</a></li>
+            <li><a href="#cold-storage"><i class="fas fa-warehouse"></i> {% trans "Nearest Cold Storage" %}</a></li>
         </ul>
     </nav>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1>Your Agricultural Recommendations</h1>
+        <h1>{% trans "Your Agricultural Recommendations" %}</h1>
 
         <!-- Soil Information Section -->
         <section id="soil" class="section">
-            <h2>Soil Information</h2>
+            <h2>{% trans "Soil Information" %}</h2>
             <div class="card">
                 <div class="info-item">
-                    <span class="info-label">Soil Type:</span>
+                    <span class="info-label">{% trans "Soil Type" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.type }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">pH:</span>
+                    <span class="info-label">{% trans "pH" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.ph }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Nitrogen:</span>
+                    <span class="info-label">{% trans "Nitrogen" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.nitrogen }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Phosphorus:</span>
+                    <span class="info-label">{% trans "Phosphorus" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.phosphorus }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Potassium:</span>
+                    <span class="info-label">{% trans "Potassium" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.potassium }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Organic Matter:</span>
+                    <span class="info-label">{% trans "Organic Matter" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.organic_matter }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Moisture:</span>
+                    <span class="info-label">{% trans "Moisture" %}:</span>
                     <span class="info-value">{{ recommendations.soil_information.moisture }}</span>
                 </div>
             </div>
@@ -282,32 +284,32 @@
 
         <!-- Fertilizer Recommendations Section -->
         <section id="fertilizers" class="section">
-            <h2>Fertilizer Recommendations</h2>
+            <h2>{% trans "Fertilizer Recommendations" %}</h2>
             <div class="card">
-                <h3>Chemical Fertilizers</h3>
+                <h3>{% trans "Chemical Fertilizers" %}</h3>
                 <ul>
                     {% for fertilizer in recommendations.fertilizer_recommendations.chemical %}
                         <li>
                             <strong>{{ fertilizer.type }}:</strong> {{ fertilizer.quantity }}
                             <br>
-                            <small>Apply: {{ fertilizer.application_time }}</small>
+                            <small>{% trans "Apply" %}: {{ fertilizer.application_time }}</small>
                         </li>
                     {% empty %}
-                        <li>No chemical fertilizer recommendations available.</li>
+                        <li>{% trans "No chemical fertilizer recommendations available." %}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="card">
-                <h3>Organic Fertilizers</h3>
+                <h3>{% trans "Organic Fertilizers" %}</h3>
                 <ul>
                     {% for fertilizer in recommendations.fertilizer_recommendations.organic %}
                         <li>
                             <strong>{{ fertilizer.type }}:</strong> {{ fertilizer.quantity }}
                             <br>
-                            <small>Apply: {{ fertilizer.application_time }}</small>
+                            <small>{% trans "Apply" %}: {{ fertilizer.application_time }}</small>
                         </li>
                     {% empty %}
-                        <li>No organic fertilizer recommendations available.</li>
+                        <li>{% trans "No organic fertilizer recommendations available." %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -315,17 +317,17 @@
 
         <!-- Crop Recommendations Section -->
         <section id="crops" class="section">
-            <h2>Crop Recommendations</h2>
+            <h2>{% trans "Crop Recommendations" %}</h2>
             <div class="card">
                 <ul>
                     {% for crop in recommendations.crop_recommendations %}
                         <li>
                             <strong>{{ crop.crop }}</strong>
                             <br>
-                            <small>Variety: {{ crop.variety }}</small>
+                            <small>{% trans "Variety" %}: {{ crop.variety }}</small>
                         </li>
                     {% empty %}
-                        <li>No crop recommendations available.</li>
+                        <li>{% trans "No crop recommendations available." %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -333,13 +335,13 @@
 
         <!-- Best Practices Section -->
         <section id="best-practices" class="section">
-            <h2>Best Practices</h2>
+            <h2>{% trans "Best Practices" %}</h2>
             <div class="card">
                 <ul>
                     {% for practice in recommendations.best_practices %}
                         <li>{{ practice }}</li>
                     {% empty %}
-                        <li>No best practices available.</li>
+                        <li>{% trans "No best practices available." %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -347,26 +349,26 @@
 
         <!-- Schedule Section -->
         <section id="schedule" class="section">
-            <h2>Schedule</h2>
+            <h2>{% trans "Schedule" %}</h2>
             <div class="card">
                 <div class="info-item">
-                    <span class="info-label">Sowing Time:</span>
+                    <span class="info-label">{% trans "Sowing Time" %}:</span>
                     <span class="info-value">{{ recommendations.schedule.sowing_time }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Expected Harvest Time:</span>
+                    <span class="info-label">{% trans "Expected Harvest Time" %}:</span>
                     <span class="info-value">{{ recommendations.schedule.expected_harvest_time }}</span>
                 </div>
             </div>
             <div class="card">
-                <h3>Key Activities</h3>
+                <h3>{% trans "Key Activities" %}</h3>
                 <ul>
                     {% for activity in recommendations.schedule.key_activities %}
                         <li>
                             <strong>{{ activity.activity }}:</strong> {{ activity.time }}
                         </li>
                     {% empty %}
-                        <li>No key activities available.</li>
+                        <li>{% trans "No key activities available." %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -374,7 +376,7 @@
 
         <!-- Expected Income Impact Section -->
         <section id="income-impact" class="section">
-            <h2>Expected Income Impact</h2>
+            <h2>{% trans "Expected Income Impact" %}</h2>
             <div class="card">
                 <p>{{ recommendations.expected_income_impact }}</p>
             </div>
@@ -382,22 +384,22 @@
 
         <!-- Nearest Cold Storage Section -->
         <section id="cold-storage" class="section">
-            <h2>Nearest Cold Storage</h2>
+            <h2>{% trans "Nearest Cold Storage" %}</h2>
             <div class="card">
                 <div class="info-item">
-                    <span class="info-label">Name:</span>
+                    <span class="info-label">{% trans "Name" %}:</span>
                     <span class="info-value">{{ recommendations.nearest_cold_storage.name }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Distance:</span>
+                    <span class="info-label">{% trans "Distance" %}:</span>
                     <span class="info-value">{{ recommendations.nearest_cold_storage.distance }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Capacity:</span>
+                    <span class="info-label">{% trans "Capacity" %}:</span>
                     <span class="info-value">{{ recommendations.nearest_cold_storage.capacity }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Type:</span>
+                    <span class="info-label">{% trans "Type" %}:</span>
                     <span class="info-value">{{ recommendations.nearest_cold_storage.type }}</span>
                 </div>
             </div>
