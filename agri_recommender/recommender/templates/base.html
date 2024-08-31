@@ -1,36 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load i18n static %}
+
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Agri Recommender{% endblock %}</title>
-    {% load static %}
+    <title>{% block title %}{% trans "Agri Recommender" %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
         /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f4f3;
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Header and Navbar Styles */
         header {
-            background-color: #4caf50;
-            padding: 15px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background-color: rgba(0, 51, 41, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: #fff;
+            pointer-events: none;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            width: 100%;
         }
 
         nav ul {
@@ -38,49 +56,55 @@
             margin: 0;
             padding: 0;
             display: flex;
+            align-items: center;
         }
 
         nav ul li {
-            margin-right: 20px;
+            margin-right: 10px;
         }
 
         nav ul li a {
             text-decoration: none;
-            color: white;
-            font-size: 18px;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #d7ffd9;
-        }
-
-        .btn-login {
-            background-color: #ffffff;
-            color: #4caf50;
-            border: 2px solid #4caf50;
-            border-radius: 5px;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 0.9em;
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .btn-login:hover {
-            background-color: #4caf50;
-            color: white;
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: #fff;
+            color: #359381;
+        }
+
+        select {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        select option {
+            background-color: #359381;
+            color: #fff;
         }
 
         main {
-            padding: 20px;
+            padding: 80px 20px 20px;
             max-width: 1200px;
             margin: 0 auto;
             min-height: 80vh;
         }
 
         footer {
-            background-color: #4caf50;
+            background-color: #003329;
             color: white;
             text-align: center;
             padding: 10px 0;
@@ -94,33 +118,56 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 10px 20px;
+                flex-direction: column;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+
+            nav {
+                flex-direction: column;
+            }
+
             nav ul {
                 flex-direction: column;
                 align-items: center;
             }
 
             nav ul li {
-                margin: 10px 0;
+                margin: 5px 0;
             }
 
             main {
-                padding: 15px;
+                padding: 100px 15px 15px;
             }
         }
     </style>
 </head>
 <body>
     <header>
+        <h2 class="logo">{% trans "Agri Recommender" %}</h2>
         <nav>
             <ul>
-                <li><a href="{% url 'landing' %}">Home</a></li>
-                <li><a href="{% url 'form' %}">Get Recommendations</a></li>
-                <li><a href="{% url 'data_visualization' %}">Data Insights</a></li>
-                <li><a href="{% url 'latest_articles' %}">Latest Articles</a></li>
+                <li><a href="{% url 'landing' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'form' %}" class="{% if 'form' in request.path %}active{% endif %}">{% trans "Get Recommendations" %}</a></li>
+                <li><a href="{% url 'data_visualization' %}" class="{% if 'data_visualization' in request.path %}active{% endif %}">{% trans "Data Insights" %}</a></li>
+                <li><a href="{% url 'latest_articles' %}" class="{% if 'latest_articles' in request.path %}active{% endif %}">{% trans "Latest Articles" %}</a></li>
             </ul>
             <ul>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}" class="{% if 'login' in request.path %}active{% endif %}">{% trans "Login" %}</a></li>
+                <li><a href="{% url 'register' %}" class="{% if 'register' in request.path %}active{% endif %}">{% trans "Register" %}</a></li>
+                <li>
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <select name="language" onchange="this.form.submit()">
+                            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                            <option value="hi" {% if LANGUAGE_CODE == 'hi' %}selected{% endif %}>हिन्दी</option>
+                        </select>
+                    </form>
+                </li>
             </ul>
         </nav>
     </header>
@@ -130,7 +177,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Agri Recommender. All rights reserved.</p>
+        <p>&copy; 2024 {% trans "Agri Recommender" %}. {% trans "All rights reserved." %}</p>
     </footer>
 </body>
 </html>

@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .views import proxy_view
 
 urlpatterns = [
     path('', views.landing, name='landing'),
@@ -11,4 +12,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('profile/', views.profile, name='profile'),
     path('latest-articles/', views.latest_articles, name='latest_articles'),
+    path('proxy/', proxy_view, name='proxy_view'),
+]
+
+# Adding i18n patterns
+urlpatterns += [
+    path('i18n/', include('django.conf.urls.i18n')),
 ]

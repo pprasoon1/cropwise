@@ -5,6 +5,9 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
+import requests
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -90,3 +93,13 @@ def latest_articles(request):
         {"title": "Weather Update: Preparing for the Upcoming Season", "summary": "Get the latest weather updates and how to prepare for the upcoming farming season.", "date": "2024-08-28"},
     ]
     return render(request, 'latest_articles.html', {'articles': articles})
+
+@csrf_exempt
+def proxy_view(request):
+    external_url = "https://soilhealth.dac.gov.in/"
+    
+    # Fetch the content from the external URL
+    response = requests.get(external_url)
+    
+    # Return the content as an HttpResponse
+    return HttpResponse(response.content, content_type=response.headers['Content-Type'])

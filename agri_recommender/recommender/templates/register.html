@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block content %}
 <section style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 50px; background-color: #e8f5e9;">
     <div style="max-width: 500px; width: 100%; background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-        <h2 style="text-align: center; color: #2e7d32; margin-bottom: 30px;">Register</h2>
+        <h2 style="text-align: center; color: #2e7d32; margin-bottom: 30px;">{% trans "Register" %}</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" style="width: 100%; padding: 10px; background-color: #43a047; color: white; border: none; border-radius: 5px; cursor: pointer;">Sign Up</button>
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #43a047; color: white; border: none; border-radius: 5px; cursor: pointer;">{% trans "Sign Up" %}</button>
         </form>
     </div>
 </section>
