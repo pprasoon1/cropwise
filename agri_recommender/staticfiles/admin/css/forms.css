@@ -95,7 +95,7 @@ fieldset .inline-heading,
     display: block;
     padding: 4px 10px 0 0;
     min-width: 160px;
-    width: 160px;
+    width: 360px;
     word-wrap: break-word;
 }
 
@@ -506,3 +506,5 @@ form .related-widget-wrapper ul {
 .clearable-file-input input {
     margin-top: 0;
 }
+
+
