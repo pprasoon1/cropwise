@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Get Recommendations{% endblock %}
+
+{% block content %}
+<section style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 50px;
+    background: url('{% static "images/bgimg1111.jpg" %}') no-repeat center center/cover;
+    background-size: cover; /* Ensure the background image covers the entire section */
+">
+    <div style="
+        max-width: 600px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    ">
+        <h1 style="
+            font-size: 32px;
+            font-weight: 700;
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 30px;
+        ">Enter Your Farm Details</h1>
+        <form method="post" style="text-align: left;">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label for="soil_ph" style="font-size: 16px; color: #555;">Soil pH (optional):</label>
+                <input type="text" id="soil_ph" name="soil_ph" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="nitrogen" style="font-size: 16px; color: #555;">Nitrogen (N) (optional):</label>
+                <input type="text" id="nitrogen" name="nitrogen" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="phosphorus" style="font-size: 16px; color: #555;">Phosphorus (P) (optional):</label>
+                <input type="text" id="phosphorus" name="phosphorus" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="potassium" style="font-size: 16px; color: #555;">Potassium (K) (optional):</label>
+                <input type="text" id="potassium" name="potassium" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="organic_matter" style="font-size: 16px; color: #555;">Organic Matter (optional):</label>
+                <input type="text" id="organic_matter" name="organic_matter" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <a href="{% url 'results' %}" style="
+                display: inline-block;
+                width: 100%;
+                padding: 15px;
+                font-size: 18px;
+                color: #ffffff;
+                background-color: #43a047;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background-color 0.3s, transform 0.3s;
+                margin-top: 20px;
+                text-align: center;
+            ">
+                Get Recommendations
+            </a>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.querySelector('a[href="{% url 'results' %}"]').addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#388e3c';
+        this.style.transform = 'translateY(-2px)';
+    });
+
+    document.querySelector('a[href="{% url 'results' %}"]').addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#43a047';
+        this.style.transform = 'translateY(0)';
+    });
+</script>
+{% endblock %}

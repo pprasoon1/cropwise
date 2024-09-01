@@ -1,14 +1,50 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-<section style="padding: 20px;">
-    <h2>{% trans "Latest Articles" %}</h2>
-    <ul>
+<section style="
+    padding: 40px; 
+    background-color: #f9f9f9; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 800px; 
+    margin: 40px auto;
+">
+    <h2 style="
+        font-size: 36px; 
+        font-weight: 700; 
+        color: #2e7d32; 
+        text-align: center; 
+        margin-bottom: 30px;
+    ">{% trans "Latest Articles" %}</h2>
+    <ul style="
+        list-style-type: none; 
+        padding: 0;
+    ">
         {% for article in articles %}
-            <li>
-                <h3>{{ article.title }}</h3>
-                <p>{{ article.summary }}</p>
-                <p><em>{% trans "Date:" %} {{ article.date }}</em></p>
+            <li style="
+                background-color: #ffffff; 
+                border-radius: 10px; 
+                padding: 20px; 
+                margin-bottom: 20px; 
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            ">
+                <h3 style="
+                    font-size: 24px; 
+                    font-weight: 600; 
+                    color: #333333;
+                    margin-bottom: 10px;
+                ">{{ article.title }}</h3>
+                <p style="
+                    font-size: 16px; 
+                    color: #666666;
+                    margin-bottom: 15px;
+                    line-height: 1.6;
+                ">{{ article.summary }}</p>
+                <p style="
+                    font-size: 14px; 
+                    color: #999999;
+                "><em>{% trans "Date:" %} {{ article.date }}</em></p>
             </li>
         {% endfor %}
     </ul>

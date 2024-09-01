@@ -103,3 +103,6 @@ def proxy_view(request):
     
     # Return the content as an HttpResponse
     return HttpResponse(response.content, content_type=response.headers['Content-Type'])
+
+def pseudo(request):
+    return render(request, 'pseudo.html')

@@ -13,6 +13,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('latest-articles/', views.latest_articles, name='latest_articles'),
     path('proxy/', proxy_view, name='proxy_view'),
+    path('pseudo/', views.pseudo, name='pseudo'),
 ]
 
 # Adding i18n patterns

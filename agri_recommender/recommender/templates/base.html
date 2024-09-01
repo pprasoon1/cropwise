@@ -126,7 +126,7 @@
 </head>
 <body>
     <header role="banner">
-        <h2 class="logo">{% trans "Agri Recommender" %}</h2>
+        <h2 class="logo">{% trans "CropWise" %}</h2>
         <nav class="navigation" role="navigation">
             <a href="{% url 'landing' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Home" %}</a>
             <a href="{% url 'form' %}" class="{% if 'form' in request.path %}active{% endif %}">{% trans "Get Recommendations" %}</a>
@@ -149,7 +149,7 @@
     </main>
 
     <footer role="contentinfo">
-        <p>&copy; 2024 {% trans "Agri Recommender" %}. {% trans "All rights reserved." %}</p>
+        <p>&copy; 2024 {% trans "cropWise" %}. {% trans "All rights reserved." %}</p>
     </footer>
 </body>
 </html>
