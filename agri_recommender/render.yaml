@@ -1,1 +1,9 @@
-services:  - type: web    name: agri-recommender    env: python    buildCommand: pip install -r requirements.txt    startCommand: gunicorn agri_recommender.wsgi    envVars:      - key: DJANGO_SETTINGS_MODULE        value: agri_recommender.settings
+buildcommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+
+startCommand: "gunicorn <your_project_name>.wsgi:application --preload --workers 3
+
+static:
+  - path: /static
+    source: staticfiles
+  - path: /media
+    source: media
