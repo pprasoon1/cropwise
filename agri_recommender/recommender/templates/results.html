@@ -247,6 +247,7 @@
     <div class="main-content">
         <h1>{% trans "Your Agricultural Recommendations" %}</h1>
 
+        {% if redirect_source != 'pseudo' %}
         <!-- Soil Information Section -->
         <section id="soil" class="section">
             <h2>{% trans "Soil Information" %}</h2>
@@ -281,6 +282,7 @@
                 </div>
             </div>
         </section>
+        {% endif %}
 
         <!-- Fertilizer Recommendations Section -->
         <section id="fertilizers" class="section">

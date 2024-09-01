@@ -29,7 +29,11 @@ def home(request):
 @csrf_exempt
 def results(request):
     recommendations = json.loads(request.session.get('recommendations', '{}'))
-    return render(request, 'results.html', {'recommendations': recommendations})
+    redirect_source = request.session.get('redirect_source', 'form')
+    return render(request, 'results.html', {
+        'recommendations': recommendations,
+        'redirect_source': redirect_source
+    })
 @csrf_exempt
 def data_visualization(request):
     # Sample data
@@ -105,4 +109,5 @@ def proxy_view(request):
     return HttpResponse(response.content, content_type=response.headers['Content-Type'])
 
 def pseudo(request):
+    request.session['redirect_source'] = 'pseudo'
     return render(request, 'pseudo.html')
