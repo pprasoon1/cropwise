@@ -37,12 +37,18 @@
             align-items: center;
             z-index: 1000;
             background-color: rgba(0, 0, 0, 0.5);
+            transition: padding 0.3s ease;
         }
 
         .logo {
             font-size: 2em;
             color: #fff;
             pointer-events: none;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
         }
 
         .navigation a {
@@ -79,7 +85,7 @@
         }
 
         main {
-            padding: 80px 20px 20px;
+            padding: 100px 20px 20px;
             max-width: 1200px;
             margin: 0 auto;
             min-height: 80vh;
@@ -99,27 +105,65 @@
             font-size: 14px;
         }
 
+        @media (max-width: 1024px) {
+            header {
+                padding: 20px 50px;
+            }
+
+            .navigation {
+                gap: 10px;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
-                padding: 20px 20px;
+                padding: 15px 20px;
                 flex-direction: column;
+                align-items: flex-start;
             }
 
             .logo {
                 margin-bottom: 10px;
+                font-size: 1.5em;
             }
 
             .navigation {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
+                width: 100%;
+                gap: 10px;
             }
 
             .navigation a {
                 margin: 5px 0;
+                width: 100%;
+                text-align: center;
             }
 
             main {
                 padding: 100px 15px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: 1.2em;
+            }
+
+            .navigation {
+                gap: 5px;
+            }
+
+            main {
+                padding: 80px 10px 10px;
+            }
+
+            footer {
+                font-size: 12px;
             }
         }
     </style>
@@ -149,7 +193,7 @@
     </main>
 
     <footer role="contentinfo">
-        <p>&copy; 2024 {% trans "cropWise" %}. {% trans "All rights reserved." %}</p>
+        <p>&copy; 2024 {% trans "CropWise" %}. {% trans "All rights reserved." %}</p>
     </footer>
 </body>
 </html>
