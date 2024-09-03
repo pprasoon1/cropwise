@@ -3,17 +3,82 @@
 {% load static %}
 
 {% block content %}
-<section style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: url('{% static "images/formbg.jpeg" %}') no-repeat center center/cover;">
-    <div style="max-width: 600px; width: 100%; background-color: rgba(255, 255, 255, 0.9); padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-        <h2 style="text-align: center; color: #2e7d32; margin-bottom: 30px;">{% trans "Profile" %}</h2>
-        <p><strong>{% trans "Username:" %}</strong> {{ user.username }}</p>
-        <p><strong>{% trans "Email:" %}</strong> {{ user.email }}</p>
-        <!-- Add more fields as needed -->
+<style>
+    .profile-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url('{% static "images/formbg.jpeg" %}') no-repeat center center/cover;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .profile-card {
+        max-width: 600px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .profile-title {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 30px;
+    }
+    .profile-info p {
+        margin-bottom: 10px;
+    }
+    .location-section {
+        margin-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 20px;
+    }
+    .location-title {
+        color: #2e7d32;
+    }
+    .update-button {
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .update-button:hover {
+        background-color: #1b5e20;
+    }
+    @media (max-width: 768px) {
+        .profile-card {
+            padding: 20px;
+        }
+    }
+    @media (max-width: 480px) {
+        .profile-title {
+            font-size: 1.5em;
+        }
+    }
+</style>
+
+<section class="profile-container">
+    <div class="profile-card">
+        <h2 class="profile-title">{% trans "Profile" %}</h2>
+        <div class="profile-info">
+            <p><strong>{% trans "Username:" %}</strong> {{ user.username }}</p>
+            <p><strong>{% trans "Email:" %}</strong> {{ user.email }}</p>
+            <!-- Add more fields as needed -->
+        </div>
         
-        <div style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
-            <h3 style="color: #2e7d32;">{% trans "Current Location" %}</h3>
+        <div class="location-section">
+            <h3 class="location-title">{% trans "Current Location" %}</h3>
             <p id="location-display">{% trans "Fetching location..." %}</p>
-            <button onclick="getLocation()" style="background-color: #2e7d32; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">{% trans "Update Location" %}</button>
+            <button onclick="getLocation()" class="update-button">{% trans "Update Location" %}</button>
         </div>
     </div>
 </section>

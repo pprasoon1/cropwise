@@ -1,50 +1,79 @@
 {% extends "base.html" %}
 {% load i18n %}
+
 {% block content %}
-<section style="
-    padding: 40px; 
-    background-color: #f9f9f9; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    max-width: 800px; 
-    margin: 40px auto;
-">
-    <h2 style="
-        font-size: 36px; 
-        font-weight: 700; 
-        color: #2e7d32; 
-        text-align: center; 
-        margin-bottom: 30px;
-    ">{% trans "Latest Articles" %}</h2>
-    <ul style="
-        list-style-type: none; 
+<style>
+    .articles-section {
+        padding: clamp(20px, 5vw, 40px);
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: clamp(20px, 5vw, 40px) auto;
+    }
+
+    .section-title {
+        font-size: clamp(24px, 5vw, 36px);
+        font-weight: 700;
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: clamp(20px, 4vw, 30px);
+    }
+
+    .articles-list {
+        list-style-type: none;
         padding: 0;
-    ">
+    }
+
+    .article-item {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: clamp(15px, 3vw, 20px);
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .article-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .article-title {
+        font-size: clamp(20px, 4vw, 24px);
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 10px;
+    }
+
+    .article-summary {
+        font-size: clamp(14px, 3vw, 16px);
+        color: #666666;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .article-date {
+        font-size: clamp(12px, 2.5vw, 14px);
+        color: #999999;
+    }
+
+    @media (max-width: 600px) {
+        .articles-section {
+            border-radius: 0;
+            margin: 0;
+        }
+    }
+</style>
+
+<section class="articles-section">
+    <h2 class="section-title">{% trans "Latest Articles" %}</h2>
+    <ul class="articles-list">
         {% for article in articles %}
-            <li style="
-                background-color: #ffffff; 
-                border-radius: 10px; 
-                padding: 20px; 
-                margin-bottom: 20px; 
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            ">
-                <h3 style="
-                    font-size: 24px; 
-                    font-weight: 600; 
-                    color: #333333;
-                    margin-bottom: 10px;
-                ">{{ article.title }}</h3>
-                <p style="
-                    font-size: 16px; 
-                    color: #666666;
-                    margin-bottom: 15px;
-                    line-height: 1.6;
-                ">{{ article.summary }}</p>
-                <p style="
-                    font-size: 14px; 
-                    color: #999999;
-                "><em>{% trans "Date:" %} {{ article.date }}</em></p>
+            <li class="article-item">
+                <h3 class="article-title">{{ article.title }}</h3>
+                <p class="article-summary">{{ article.summary }}</p>
+                <p class="article-date"><em>{% trans "Date:" %} {{ article.date }}</em></p>
             </li>
         {% endfor %}
     </ul>

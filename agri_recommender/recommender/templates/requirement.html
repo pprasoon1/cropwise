@@ -14,8 +14,8 @@
     .container {
         position: relative;
         width: 100%;
-        height: 100vh;
-        overflow: hidden; /* Prevent scrollbars if image is slightly larger */
+        min-height: 100vh;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -23,52 +23,54 @@
     }
 
     .background-image {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        width: 100vw; /* Ensure full viewport width */
-        height: 100vh; /* Ensure full viewport height */
-        object-fit: cover; /* Cover the area */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         z-index: -1;
         filter: brightness(70%);
     }
 
     .welcome-section {
         text-align: center;
-        padding: 50px;
+        padding: 50px 20px;
         background-color: rgba(255, 255, 255, 0.85);
         border-radius: 20px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
+        max-width: 90%;
+        width: 800px;
         position: relative;
-        z-index: 1; /* Ensure it's above the background image */
+        z-index: 1;
+        margin: 20px 0;
     }
 
     .leaf-image {
         position: absolute;
-        top: -80px;
+        top: -60px;
         left: 50%;
         transform: translateX(-50%);
-        width: 150px;
+        width: 100px;
         height: auto;
     }
 
     .main-heading {
-        font-size: 54px;
+        font-size: clamp(32px, 5vw, 54px);
         font-weight: 700;
         color: #2e7d32;
         margin-bottom: 20px;
     }
 
     .subheading {
-        font-size: 28px;
+        font-size: clamp(18px, 3vw, 28px);
         color: #555;
         margin-bottom: 40px;
     }
 
     .get-started-button {
         padding: 15px 30px;
-        font-size: 18px;
+        font-size: clamp(16px, 2.5vw, 18px);
         color: #fff;
         background-color: #4caf50;
         border: none;
@@ -88,7 +90,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        padding: 80px 50px;
+        padding: 40px 20px;
         background-color: rgba(250, 250, 250, 0.9);
         width: 100%;
     }
@@ -104,24 +106,20 @@
         transition: transform 0.3s;
     }
 
-    .feature:hover {
-        transform: translateY(-10px);
-    }
-
     .feature img {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         margin-bottom: 20px;
     }
 
     .feature h2 {
-        font-size: 32px;
+        font-size: clamp(24px, 4vw, 32px);
         color: #2e7d32;
         margin-bottom: 15px;
     }
 
     .feature p {
-        font-size: 20px;
+        font-size: clamp(16px, 2.5vw, 20px);
         color: #555;
     }
 
@@ -132,8 +130,28 @@
     }
 
     @media (max-width: 768px) {
+        .welcome-section {
+            padding: 30px 15px;
+        }
+
+        .leaf-image {
+            width: 80px;
+            top: -40px;
+        }
+
         .feature {
             width: 100%;
+            margin: 10px 0;
+        }
+
+        .features-section {
+            padding: 20px 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .get-started-button {
+            padding: 12px 24px;
         }
     }
 </style>

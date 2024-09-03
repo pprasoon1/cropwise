@@ -27,18 +27,26 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 100px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             background-color: rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
         }
 
         .logo {
-            font-size: 2em;
+            font-size: 1.5em;
             color: #fff;
             pointer-events: none;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
         }
 
         .navigation a {
@@ -46,7 +54,7 @@
             color: #fff;
             padding: 6px 15px;
             border-radius: 20px;
-            margin: 0 10px;
+            margin: 5px;
             font-weight: 600;
         }
 
@@ -62,14 +70,17 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
         #text {
             position: absolute;
-            font-size: 5em;
+            font-size: 3em;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,.2);
             transition: opacity 0.5s ease;
+            text-align: center;
+            padding: 0 20px;
         }
 
         .parallax img {
@@ -77,30 +88,33 @@
             top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             pointer-events: none;
         }
 
         .sec {
             position: relative;
             background: #003329;
-            padding: 100px;
+            padding: 50px 20px;
         }
 
         .sec h2 {
-            font-size: 3em;
+            font-size: 2em;
             color: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .sec p {
             font-size: 1em;
             color: #fff;
             font-weight: 300;
+            line-height: 1.6;
         }
 
         .about {
             position: relative;
-            padding: 150px 0;
+            padding: 100px 20px;
             background-image: url('{% static "images/about-bg.jpg" %}');
             background-size: cover;
             background-position: center;
@@ -111,20 +125,20 @@
             max-width: 1000px;
             margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 60px;
+            padding: 40px 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .about h2 {
-            font-size: 3.5em;
+            font-size: 2.5em;
             color: #359381;
             margin-bottom: 30px;
             text-align: center;
         }
 
         .about p {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #333;
             line-height: 1.8;
             margin-bottom: 20px;
@@ -132,7 +146,7 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 30px;
             margin-top: 40px;
         }
@@ -145,14 +159,62 @@
         }
 
         .about-item h3 {
-            font-size: 1.8em;
+            font-size: 1.5em;
             color: #359381;
             margin-bottom: 15px;
         }
 
         .about-item p {
-            font-size: 1em;
+            font-size: 0.9em;
             color: #555;
+        }
+
+        @media (min-width: 768px) {
+            header {
+                padding: 20px 50px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            .navigation {
+                margin-top: 0;
+            }
+
+            #text {
+                font-size: 4em;
+            }
+
+            .sec {
+                padding: 100px 50px;
+            }
+
+            .sec h2 {
+                font-size: 2.5em;
+            }
+
+            .about-content {
+                padding: 60px;
+            }
+
+            .about h2 {
+                font-size: 3em;
+            }
+
+            .about-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            header {
+                padding: 20px 100px;
+            }
+
+            #text {
+                font-size: 5em;
+            }
         }
     </style>
 </head>
@@ -175,7 +237,6 @@
         <img src="{% static 'images/hill5.png' %}" id="hill5">
         <img src="{% static 'images/tree.png' %}" id="tree">
         <h2 id="text">CropWise</h2>
-       
         <img src="{% static 'images/leaf.png' %}" id="leaf">
         <img src="{% static 'images/plant.png' %}" id="plant">
     </section>
@@ -231,7 +292,6 @@
             hill4.style.left = Math.min(value * -1.5, maxScroll) + 'px';
             hill1.style.top = Math.min(value * 1, maxScroll) + 'px';
 
-            // Make text disappear as it approaches the about section
             if (value > aboutStart - window.innerHeight) {
                 let opacity = 1 - (value - (aboutStart - window.innerHeight)) / window.innerHeight;
                 text.style.opacity = opacity < 0 ? 0 : opacity;

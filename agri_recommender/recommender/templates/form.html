@@ -4,74 +4,109 @@
 {% block title %}Get Recommendations{% endblock %}
 
 {% block content %}
-<section style="
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; 
-    padding: 50px; 
-    background: url('{% static "images/bgimg1.jpeg" %}') no-repeat center center/cover;
-    background-size: cover; /* Ensure the background image covers the entire section */
-">
-    <div style="
-        max-width: 600px; 
-        width: 100%; 
-        background-color: rgba(255, 255, 255, 0.9); 
-        padding: 40px; 
-        border-radius: 15px; 
+<style>
+    .recommendations-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        background: url('{% static "images/bgimg1.jpeg" %}') no-repeat center center/cover;
+    }
+
+    .form-container {
+        max-width: 600px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    ">
-        <h1 style="
-            font-size: 32px; 
-            font-weight: 700; 
-            color: #2e7d32; 
-            text-align: center; 
-            margin-bottom: 30px;
-        ">Enter Your Farm Details</h1>
-        <form method="post" style="text-align: left;">
+    }
+
+    .form-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #43a047;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        margin-top: 20px;
+    }
+
+    .submit-button:hover {
+        background-color: #388e3c;
+        transform: translateY(-2px);
+    }
+
+    .manual-link {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .manual-link:hover {
+        background-color: #45a049;
+    }
+
+    @media (min-width: 768px) {
+        .recommendations-section {
+            padding: 50px;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-title {
+            font-size: 32px;
+        }
+
+        .submit-button {
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .manual-link {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    }
+</style>
+
+<section class="recommendations-section">
+    <div class="form-container">
+        <h1 class="form-title">Enter Your Farm Details</h1>
+        <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" style="
-                width: 100%; 
-                padding: 15px; 
-                font-size: 18px; 
-                color: #ffffff; 
-                background-color: #43a047; 
-                border: none; 
-                border-radius: 8px; 
-                cursor: pointer; 
-                text-decoration: none; 
-                transition: background-color 0.3s, transform 0.3s; 
-                margin-top: 20px;
-            ">
+            <button type="submit" class="submit-button">
                 Get Recommendations
             </button>
-            <div style="text-align: center; margin: 20px 0;">
-                <a href="{% url 'pseudo' %}" style="
-                  display: inline-block;
-                  padding: 10px 20px;
-                  background-color: #4CAF50;
-                  color: white;
-                  text-decoration: none;
-                  font-weight: bold;
-                  border-radius: 5px;
-                  transition: background-color 0.3s ease;
-                ">
-                  Want to add your soil details manually?
+            <div style="text-align: center;">
+                <a href="{% url 'pseudo' %}" class="manual-link">
+                    Want to add your soil details manually?
                 </a>
-              </div>        </form>
+            </div>
+        </form>
     </div>
 </section>
-
-<script>
-    document.querySelector('button[type="submit"]').addEventListener('mouseover', function() {
-        this.style.backgroundColor = '#388e3c';
-        this.style.transform = 'translateY(-2px)';
-    });
-
-    document.querySelector('button[type="submit"]').addEventListener('mouseout', function() {
-        this.style.backgroundColor = '#43a047';
-        this.style.transform = 'translateY(0)';
-    });
-</script>
 {% endblock %}
