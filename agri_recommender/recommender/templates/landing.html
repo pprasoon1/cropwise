@@ -216,6 +216,36 @@
                 font-size: 5em;
             }
         }
+        .button-container {
+            display: flex;
+            justify-content: center; /* Centers the button horizontally */
+            align-items: center;    /* Centers the button vertically if needed */
+            padding: 20px;
+        }
+    
+        .styled-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #489d8d; /* Green background */
+            border: none;
+            border-radius: 8px; /* Slightly more rounded corners */
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .styled-button:hover {
+            background-color: #003329; /* Darker green on hover */
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        .styled-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -224,6 +254,7 @@
         <nav class="navigation">
             <a href="#" class="active">Home</a>
             <a href="#about">About</a>
+            <a href="{% url 'form' %}" >Get Recommendations</a>
             <a href="#services">Services</a>
             <a href="/login">Login</a>
         </nav>
@@ -240,6 +271,13 @@
         <img src="{% static 'images/leaf.png' %}" id="leaf">
         <img src="{% static 'images/plant.png' %}" id="plant">
     </section>
+
+    <div class="button-container">
+        <a href="{% url 'form' %}" class="styled-button">Get Recommendations</a>
+    </div>
+   
+
+    
 
     <section class="about" id="about">
         <div class="about-content">

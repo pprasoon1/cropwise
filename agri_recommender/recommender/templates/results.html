@@ -1,4 +1,4 @@
-
+{% extends "base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Your Agricultural Recommendations" %}{% endblock %}
@@ -10,15 +10,16 @@
         padding: 0;
         height: 100%;
         font-family: 'Roboto', 'Arial', sans-serif;
-        background: url('/static/images/bgimg1111.jpg') no-repeat center center fixed;
+        background: url('/static/images/bgimg1111.jpg') repeat center center fixed;
         background-size: cover;
-        background-color: #f5f7fa;
+        background-color: #0b453a;
     }
     .container {
         display: flex;
         min-height: 100vh;
+        border-radius: 16px;
     }
-    .navbar {
+    {% comment %} .navbar {
         background: linear-gradient(to right, #2c3e50, #34495e);
         color: white;
         padding: 15px 20px;
@@ -72,10 +73,135 @@
     }
     .navbar a:hover::after {
         width: 100%;
+    } {% endcomment %}
+    /* Refined Header and Navbar */
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px; /* Decreased height */
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        background: linear-gradient(to right, rgba(0, 51, 41, 0.98), rgba(53, 147, 129, 0.98));
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
     }
+
+    .logo {
+        font-size: 1.75em;
+        color: var(--text-light);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        fill: var(--text-light);
+    }
+
+    .navigation {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-item {
+        text-decoration: none;
+        color: var(--text-light);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background: var(--text-light);
+        border-radius: 50%;
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .auth-button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+    }
+
+    .login-btn {
+        color: var(--text-light);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .register-btn {
+        color: var(--primary-dark);
+        background: var(--text-light);
+    }
+
+    .login-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .register-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .language-select {
+        background: transparent;
+        color: var(--text-light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .language-select:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .language-select option {
+        background: var(--primary-dark);
+        color: var(--text-light);
+        padding: 8px;
+    }
+
     .sidebar {
         width: 280px;
-        background-color: #2c3e50;
+        background-color: #0b453a;
         color: white;
         position: fixed;
         top: 60px;
@@ -93,9 +219,10 @@
         font-weight: 500;
         padding: 20px;
         margin: 0;
-        background-color: #34495e;
+        
         text-align: center;
         letter-spacing: 1px;
+        color: #ecf0f1;
     }
     .sidebar ul {
         list-style: none;
@@ -218,15 +345,7 @@
     }
 </style>
 
-<div class="navbar">
-    <h1>{% trans "Agri Recommender" %}</h1>
-    <ul>
-        <li><a href="{% url 'landing' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Home" %}</a></li>
-        <li><a href="{% url 'form' %}" class="{% if 'form' in request.path %}active{% endif %}">{% trans "Get Recommendations" %}</a></li>
-        <li><a href="{% url 'data_visualization' %}" class="{% if 'data_visualization' in request.path %}active{% endif %}">{% trans "Data Insights" %}</a></li>
-        <li><a href="{% url 'latest_articles' %}" class="{% if 'latest_articles' in request.path %}active{% endif %}">{% trans "Latest Articles" %}</a></li>
-    </ul>
-</div>
+
 
 <div class="container">
     <!-- Sticky Sidebar -->
